@@ -105,3 +105,36 @@ def minSubq(s, t):
                 min_len = i-dp[i][n-1]+1
     res = s[dp[-1][-1]: min_len+1]
     return res
+
+
+# elephant = list(map(int, input().strip().split()))
+# king = list(map(int, input().strip().split()))
+elephant = [4,2]
+king = [2,5]
+gird = [[0] * 9 for _ in range(10)]
+# 0<= row <=9 , 0 <= col <= 8
+def find(row, col, gird, res):
+    if row == king[0]-1 and col == king[1]-1:
+        return res
+    elif row>9 or row<0 or col >8 or col<0 or gird[row][col]==1:
+        return 0
+
+    gird[row][col] = 1
+    r1 = find(row+2, col+3, gird, res+1)
+    r2 = find(row + 2, col - 3, gird, res + 1)
+    r3 = find(row - 2, col + 3, gird, res + 1)
+    r4 = find(row - 2, col - 3, gird, res + 1)
+    r5 = find(row + 3, col + 2, gird, res + 1)
+    r6 = find(row - 3, col + 2, gird, res + 1)
+    r7 = find(row + 3, col - 2, gird, res + 1)
+    r8 = find(row - 3, col - 2, gird, res + 1)
+    gird[row][col] = 0
+
+    return max(r1, r2, r3, r4, r5, r6, r7, r8)
+
+a = find(elephant[0], elephant[1], gird, 0)
+
+if a:
+    print(a)
+else:
+    print(-1)
