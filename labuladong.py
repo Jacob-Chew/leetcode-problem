@@ -49,7 +49,7 @@ def coinChange(coins, amount):
 
 def permute( nums):
     """
-    全排列问题
+    全排列问题  只适用于nums中元素都不同
     """
     result = []
     route = {}
@@ -65,6 +65,38 @@ def permute( nums):
             del route[val]
     track(nums, route)
     return result
+
+
+def print_all_subsquence(s):
+    """
+    打印字符串的所有子序列
+    """
+    # 第一种方法是递归
+    res = []
+    def all_subsquence(s, i, tmp):
+        if i == len(s):
+            res.append(tmp)
+            return
+        all_subsquence(s, i+1, tmp)       # 回溯 当前位置不加入该对应字符
+        all_subsquence(s, i+1, tmp+s[i])  # 当前位置加入对应字符
+        return
+    all_subsquence(s, 0, "")
+
+    # 第二种方法，迭代
+    def iteration(s):
+        ln = len(s)
+        # 总的2^n 种情况，即对于s每一位，都有 要或者不要 两种情况 假设s长度为四，对应二进制 0000 0001 0010 0011 ... 1表示该位要0表示不要
+        nums = 1 << ln
+        for i in range(nums):  # 这里即是遍历 0000 ~ 1111
+            tmp = ''
+            for j in range(ln):
+                if 1 << j & i:   # j 则是遍历i的所有位  看是0还是1，是1 则加入当前s[j]
+                    tmp += s[j]
+            res.append(tmp)
+        return res
+    return res
+
+
 
 
 def solveNQueens( n: int):
@@ -389,6 +421,29 @@ class Solution3:
         return str_s == str_s[::-1]
 
 
+def mergeNums(nums):
+    """
+
+    :param nums:
+    :return: 合并k个有序数组  分治法，将nums中所有分为左右两组，再继续往下分，直到每组只有两个列表或者一个列表
+    然后往上合并两个有序数组即可。 最小子问题就是合并两个有序数组
+    """
+    def merge2Nums(n1, n2):
+
+        return n1
+
+    def deal(nums, l, r):
+        if l == r:
+            return nums[l]
+        elif r-l==1:
+            return merge2Nums(nums[l], nums[r])
+        mid = (l+r) // 2
+        n1 = deal(nums, l, mid)
+        n2 = deal(nums, mid+1, r)
+        return merge2Nums(n1, n2)
+
+    return deal(nums, 0, len(nums)-1)
+
 if __name__ == '__main__':
     peach, deadline = map(int, input().split())
     times = list(map(int, input().split()))
@@ -576,7 +631,7 @@ def maxSubArray(nums):
 # 完美平方
 # 最小划分
 # 跳跃游戏
-
+# lc 54 螺旋矩阵  顺时针旋转矩阵  a = list(zip(*a[::-1]))   逆时针旋转 a = list(zip(*a))[::-1]
 
 
 
