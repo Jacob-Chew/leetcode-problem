@@ -244,6 +244,11 @@ def swapPairs(self, head: ListNode) -> ListNode:
     return root.next
 
 
+# 求两个数组中，元素之间差的绝对值最小的值
+
+
+
+
 if __name__ == '__main__':
     a = [1, 2, 3, 4]
     root = TreeNode(None)

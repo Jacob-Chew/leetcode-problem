@@ -1,6 +1,13 @@
 import copy
 import time
 
+
+class ListNode():
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+
 def longestCommonSubsequence(text1: str, text2: str) -> int:
     """
     最长公共子序列
@@ -270,6 +277,17 @@ def reverse(head):
     tmp.next, head.next = head, tmp
     return head
 
+"""
+迭代方式翻转链表
+"""
+def reverse_2(head):
+    if not head:
+        return head
+    dum = ListNode(None)
+    while head:
+        dum.next, head.next, head = head, dum.next, head.next
+
+    return dum.next
 
 
 
@@ -429,6 +447,9 @@ def mergeNums(nums):
     然后往上合并两个有序数组即可。 最小子问题就是合并两个有序数组
     """
     def merge2Nums(n1, n2):
+        # 这里有两种方式 第一python的方法，直接在n1的中间insert  但是该方法比较偷懒；第二种方法用c++，n1的长度是n1+n2
+        # 此时可以有两种方法 第一是建立一个空列表 双指针往里面放，第二是从n1的尾部开始放，也是双指针
+
 
         return n1
 
@@ -443,6 +464,37 @@ def mergeNums(nums):
         return merge2Nums(n1, n2)
 
     return deal(nums, 0, len(nums)-1)
+
+# 数组的第k大元素
+class Deal:
+    def findKthLargest(self, nums, k: int) -> int:
+        self.res = None
+        def partion(nums, l, r):
+            flag = nums[l]
+            while l<r:
+                while l<r and nums[r] <= flag:
+                    r -= 1
+                nums[l] = nums[r]
+                while l<r and nums[l] >= flag:
+                    l +=1
+                nums[r] = nums[l]
+            nums[l] = flag
+            return l
+
+        def quick_sort(nums, l, r):
+            if l >= r:
+                return
+            indx = partion(nums, l, r)
+            if indx ==k-1:
+                self.res = nums[k-1]
+                return
+            elif indx<k-1:
+                quick_sort(nums, indx+1, r)
+            else:
+                quick_sort(nums, l, indx-1)
+
+        quick_sort(nums, 0, len(nums)-1)
+        return self.res if self.res else nums[k-1]
 
 if __name__ == '__main__':
     peach, deadline = map(int, input().split())
