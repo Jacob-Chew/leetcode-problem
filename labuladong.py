@@ -686,5 +686,23 @@ def maxSubArray(nums):
 # 跳跃游戏
 # lc 54 螺旋矩阵  顺时针旋转矩阵  a = list(zip(*a[::-1]))   逆时针旋转 a = list(zip(*a))[::-1]
 
+# 记录一下二维矩阵中的路径的相关问题
+# 一般有以下一些问题 是否能从a点到达b点， a点到b点的路径有哪些，a点到b点最短路径（或者路径和最小即路径带权）
 
+def find(x1, y1, x2, y2, map):
+    # 起始点和终点坐标分别为(x1,y1) (x2,y2), map上0是障碍物  问是否能从起点到终点
+    n, m = len(map), len(map[0])
+    memo = [[0] * m for _ in range(n)]
+    def move(x, y, memo):
+        if x==x2 and y==y2:
+            return True
+        tmp = False
+        if 0 <= x < n and 0<=y<m and memo[x][y] == 0 and Map[x][y] != 0:
+            memo[x][y] = 1
+            tmp = move(x+1, y, memo) or move(x-1, y, memo) or move(x, y+1, memo) or move(x, y-1, memo)
+            if not tmp:
+                memo[x][y] = 0
+        return tmp
+    res = move(x1, y1, memo)
+    return res
 
