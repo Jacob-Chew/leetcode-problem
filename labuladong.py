@@ -64,6 +64,7 @@ def permute( nums):
     def track(nums, route):
         if len(route) == len(nums):
             result.append(list(route.keys()))
+            return
         for val in nums:
             if val in route:
                 continue
@@ -274,8 +275,8 @@ def reverse(head):
     if not head or not head.next: # 如果是空表或者单链表，直接返回head
         return head
     tmp = reverse(head.next)
-    tmp.next, head.next = head, tmp
-    return head
+    head.next.next, head.next = head, None
+    return tmp  # 一直返回的是翻转后的头结点，即原来顺序的最后一个节点
 
 """
 迭代方式翻转链表
